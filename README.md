@@ -1,10 +1,3 @@
-Absolutely bro 🔥 here’s your **entire professional README.md** — everything in one single clean code block — formatted, polished, and directly ready to paste into your GitHub repo (`TicketBossJS`).
-
-Just copy-paste this as is 👇
-
----
-
-```markdown
 # 🎟️ TicketBossJS — Real-Time Event Ticketing API (Node.js + Express)
 
 > **TicketBossJS** is a backend application that implements a real-time event seat reservation system for a tech meet-up.  
@@ -13,18 +6,18 @@ Just copy-paste this as is 👇
 ---
 
 ## 📘 Table of Contents
-- [🧩 Problem Overview](#-problem-overview)
-- [⚙️ Tech Stack](#️-tech-stack)
-- [📁 Project Structure](#-project-structure)
-- [🚀 Setup Instructions](#-setup-instructions)
-- [🌐 API Endpoints](#-api-endpoints)
-  - [1️⃣ POST /reservations/ — Reserve Seats](#1️⃣-post-reservations--reserve-seats)
-  - [2️⃣ DELETE /reservations/:reservationId — Cancel Reservation](#2️⃣-delete-reservationsreservationid--cancel-reservation)
-  - [3️⃣ GET /reservations/ — Event Summary](#3️⃣-get-reservations--event-summary)
-- [🧠 Example API Flow](#-example-api-flow)
-- [🧱 Technical Decisions](#-technical-decisions)
-- [✅ Evaluation Checklist](#-evaluation-checklist)
-- [👨‍💻 Author](#-author)
+- [Problem Overview](#problem-overview)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Setup Instructions](#setup-instructions)
+- [API Endpoints](#api-endpoints)
+  - [POST /reservations/ — Reserve Seats](#post-reservations--reserve-seats)
+  - [DELETE /reservations/:reservationId — Cancel Reservation](#delete-reservationsreservationid--cancel-reservation)
+  - [GET /reservations/ — Event Summary](#get-reservations--event-summary)
+- [Example API Flow](#example-api-flow)
+- [Technical Decisions](#technical-decisions)
+- [Evaluation Checklist](#evaluation-checklist)
+- [Author](#author)
 
 ---
 
@@ -57,112 +50,83 @@ The system supports:
 
 ## 📁 Project Structure
 
-```
-
 TicketBossJS/
 ├── public/
-│   └── index.html         # Frontend UI
-├── server.js              # Main backend file
-├── package.json           # Dependencies and scripts
-├── .gitignore             # Ignored files
-└── README.md              # Documentation
+│ └── index.html # Frontend UI
+├── server.js # Main backend file
+├── package.json # Dependencies and scripts
+├── .gitignore # Ignored files
+└── README.md # Documentation
 
-````
+yaml
+Copy code
 
 ---
 
 ## 🚀 Setup Instructions
 
-### 1️⃣ Clone the Repository
+### Step 1: Clone the Repository
 ```bash
 git clone https://github.com/howdikshant/TicketBossJS.git
 cd TicketBossJS
-````
-
-### 2️⃣ Install Dependencies
-
-```bash
+Step 2: Install Dependencies
+bash
+Copy code
 npm install
-```
-
-### 3️⃣ Run the Server (Development)
-
-```bash
+Step 3: Run the Server
+bash
+Copy code
 npm run dev
-```
-
 The API will start at
-👉 `http://127.0.0.1:8000`
+👉 http://127.0.0.1:8000
 
-### 4️⃣ Open the Frontend
-
-Open `public/index.html` in your browser or use VSCode’s Live Server.
+Step 4: Open the Frontend
+Open public/index.html in your browser or use VSCode’s Live Server extension.
 The UI allows you to:
 
-* Reserve seats
-* Cancel reservations
-* View live event summary
+Reserve seats
 
----
+Cancel reservations
 
-## 🌐 API Endpoints
+View live event summary
 
----
-
-### 1️⃣ **POST /reservations/** — Reserve Seats
-
-#### **Request Body**
-
-```json
+🌐 API Endpoints
+POST /reservations/ — Reserve Seats
+Request Body
+json
+Copy code
 {
   "partnerId": "abc-corp",
   "seats": 3
 }
-```
-
-#### ✅ **201 Created**
-
-```json
+✅ 201 Created
+json
+Copy code
 {
   "reservationId": "f53a81e6-3d44-4f23-b2f1-3d79c2c347e1",
   "seats": 3,
   "status": "confirmed"
 }
-```
-
-#### ⚠️ **400 Bad Request**
-
-```json
+⚠️ 400 Bad Request
+json
+Copy code
 { "error": "Seats per request must be between 1 and 10" }
-```
-
-#### ❌ **409 Conflict**
-
-```json
+❌ 409 Conflict
+json
+Copy code
 { "error": "Not enough seats left" }
-```
-
----
-
-### 2️⃣ **DELETE /reservations/:reservationId** — Cancel Reservation
-
-#### ✅ **204 No Content**
-
+DELETE /reservations/:reservationId — Cancel Reservation
+✅ 204 No Content
 Seats are released back into the pool.
 
-#### ❌ **404 Not Found**
-
-```json
+❌ 404 Not Found
+json
+Copy code
 { "error": "Reservation not found" }
-```
-
----
-
-### 3️⃣ **GET /reservations/** — Event Summary
-
-#### ✅ **200 OK**
-
-```json
+GET /reservations/ — Event Summary
+✅ 200 OK
+json
+Copy code
 {
   "eventId": "node-meetup-2025",
   "name": "Node.js Meet-up",
@@ -171,106 +135,76 @@ Seats are released back into the pool.
   "reservationCount": 8,
   "version": 5
 }
-```
+🧠 Example API Flow
+POST /reservations/ → Partner A reserves 5 seats
 
----
+POST /reservations/ → Partner B reserves 10 seats
 
-## 🧠 Example API Flow
+DELETE /reservations/:id → Partner A cancels
 
-1️⃣ `POST /reservations/` → Partner A reserves 5 seats
-2️⃣ `POST /reservations/` → Partner B reserves 10 seats
-3️⃣ `DELETE /reservations/:id` → Partner A cancels
-4️⃣ `GET /reservations/` → Shows updated available seats and version increment
+GET /reservations/ → Shows updated available seats and version increment
 
-Every successful reservation or cancellation increments the `version` counter.
+Every successful reservation or cancellation increments the version counter.
 
----
+🧱 Technical Decisions
+Data Storage
+The event and reservation data are stored in-memory for simplicity.
 
-## 🧱 Technical Decisions
+A real-world implementation would persist data in Redis or PostgreSQL for concurrency safety.
 
-### 🧮 Data Storage
+Optimistic Concurrency Control
+A version key increments on every state change (reservation/cancellation).
 
-* The event and reservation data are stored **in-memory** for simplicity.
-* A real-world implementation would persist data in **Redis or PostgreSQL** for concurrency safety.
+This allows clients to detect concurrent updates.
 
-### 🧩 Optimistic Concurrency Control
+Error Handling
+Proper validation for:
 
-* A `version` key increments on every state change (reservation/cancellation).
-* This allows clients to detect concurrent updates.
+Invalid seat numbers (≤0 or >10)
 
-### ⚡ Error Handling
+Insufficient available seats
 
-* Proper validation for:
+Missing or invalid reservation IDs
 
-  * Invalid seat numbers (≤0 or >10)
-  * Insufficient available seats
-  * Missing or invalid reservation IDs
+Design Choices
+Endpoints kept RESTful and simple
 
-### 🧰 Design Choices
+Stateless API behavior (no sessions)
 
-* Kept endpoints **RESTful and simple**
-* Stateless API behavior (no session data)
-* Frontend built using **vanilla HTML/CSS/JS** for clarity and independence
+Frontend built using vanilla HTML/CSS/JS for simplicity and clarity
 
----
+✅ Evaluation Checklist
+Criteria	Status	Notes
+Functional API (3 endpoints)	✅	Matches Powerplay spec
+No overselling of seats	✅	Validated in POST route
+Proper HTTP codes	✅	201, 204, 400, 404, 409 used correctly
+Version increments	✅	Each update increments version
+Clean Code & Comments	✅	Readable, modular code
+Frontend Integration	✅	Fully working UI for interaction
+Documentation	✅	Detailed README (this file)
 
-## ✅ Evaluation Checklist
-
-| Criteria                     | Status | Notes                                  |
-| ---------------------------- | ------ | -------------------------------------- |
-| Functional API (3 endpoints) | ✅      | Matches Powerplay spec                 |
-| No overselling of seats      | ✅      | Validated in POST route                |
-| Proper HTTP codes            | ✅      | 201, 204, 400, 404, 409 used correctly |
-| Version increments           | ✅      | Each update increments version         |
-| Clean Code & Comments        | ✅      | Readable, modular code                 |
-| Frontend Integration         | ✅      | Fully working UI for interaction       |
-| Documentation                | ✅      | Detailed README (this file)            |
-
----
-
-## 💻 Run Example
-
-```bash
+💻 Run Example
+bash
+Copy code
 # Start server
 npm run dev
 
 # Open in browser
 http://127.0.0.1:8000
 
-# Try POST request in Postman
+# Example POST request
 POST http://127.0.0.1:8000/reservations/
 {
   "partnerId": "alpha-inc",
   "seats": 4
 }
-```
-
 Response:
-
-```json
+json
+Copy code
 {
   "reservationId": "af7231ab-18a9-467f-a6db-81ef0196b3c2",
   "seats": 4,
   "status": "confirmed"
 }
-```
-
----
-
-## 👨‍💻 Author
-
-**Dikshant Ubale**
-🎓 Sophomore, IIITDM Kancheepuram
-💡 Electronics + Robotics Enthusiast | Full-stack & IoT Developer
-📫 [GitHub: howdikshant](https://github.com/howdikshant)
-
----
-
-> *“Fast, clean, and reliable — TicketBossJS ensures no ticket chaos.”* 🎫
-
-```
-
----
-
-✅ You can now copy this entire block directly into your `README.md` file in VS Code — it’s complete, formatted, and matches both your implementation **and** the Powerplay problem statement.
-```
+👨‍💻 Author
+Dikshant Ubale
