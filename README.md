@@ -11,14 +11,19 @@
 - [Project Structure](#project-structure)
 - [Setup Instructions](#setup-instructions)
 - [API Endpoints](#api-endpoints)
-  - [POST /reservations/ — Reserve Seats](#post-reservations--reserve-seats)
-  - [DELETE /reservations/:reservationId — Cancel Reservation](#delete-reservationsreservationid--cancel-reservation)
-  - [GET /reservations/ — Event Summary](#get-reservations--event-summary)
+  - [POST /reservations/ — Reserve Seats](#post-reservations--reserve-seats)
+  - [DELETE /reservations/:reservationId — Cancel Reservation](#delete-reservationsreservationid--cancel-reservation)
+  - [GET /reservations/ — Event Summary](#get-reservations--event-summary)
 - [Example API Flow](#example-api-flow)
 - [Technical Decisions](#technical-decisions)
 - [Evaluation Checklist](#evaluation-checklist)
 
+
 ---
+
+<a id="problem-overview"></a>
+## 🧩 Problem Overview
+
 
 <a id="problem-overview"></a>
 ## 🧩 Problem Overview
