@@ -50,86 +50,99 @@ The system supports:
 
 ## 📁 Project Structure
 
+```
 TicketBossJS/
 │
 ├── public/
-│ └── index.html # Frontend UI
+│   └── index.html          # Frontend UI
 │
-├── server.js # Main backend file
-├── package.json # Dependencies and scripts
-├── package-lock.json # Auto-generated dependency lock file
-├── .gitignore # Ignored files
-└── README.md # Documentation
-
-yaml
-Copy code
+├── server.js               # Main backend file
+├── package.json            # Dependencies and scripts
+├── package-lock.json       # Auto-generated dependency lock file
+├── .gitignore              # Ignored files
+└── README.md               # Documentation
+```
 
 ---
 
 ## 🚀 Setup Instructions
 
 ### Step 1: Clone the Repository
-```bash
+```
 git clone https://github.com/howdikshant/TicketBossJS.git
 cd TicketBossJS
-Step 2: Install Dependencies
-bash
-Copy code
+```
+
+### Step 2: Install Dependencies
+```
 npm install
-Step 3: Run the Server
-bash
-Copy code
+```
+
+### Step 3: Run the Server
+```
 npm run dev
-The API will start at
-👉 http://127.0.0.1:8000
+```
 
-Step 4: Open the Frontend
-Open public/index.html in your browser or use VSCode’s Live Server extension.
+The API will start at  
+👉 **http://127.0.0.1:8000**
+
+### Step 4: Open the Frontend
+Open `public/index.html` in your browser or use VSCode’s Live Server extension.  
 The UI allows you to:
+- Reserve seats  
+- Cancel reservations  
+- View live event summary  
 
-Reserve seats
+---
 
-Cancel reservations
+## 🌐 API Endpoints
 
-View live event summary
-
-🌐 API Endpoints
-POST /reservations/ — Reserve Seats
-Request Body
-json
-Copy code
+### POST /reservations/ — Reserve Seats
+#### Request Body
+```
 {
   "partnerId": "abc-corp",
   "seats": 3
 }
-✅ 201 Created
-json
-Copy code
+```
+
+#### ✅ 201 Created
+```
 {
   "reservationId": "f53a81e6-3d44-4f23-b2f1-3d79c2c347e1",
   "seats": 3,
   "status": "confirmed"
 }
-⚠️ 400 Bad Request
-json
-Copy code
+```
+
+#### ⚠️ 400 Bad Request
+```
 { "error": "Seats per request must be between 1 and 10" }
-❌ 409 Conflict
-json
-Copy code
+```
+
+#### ❌ 409 Conflict
+```
 { "error": "Not enough seats left" }
-DELETE /reservations/:reservationId — Cancel Reservation
-✅ 204 No Content
+```
+
+---
+
+### DELETE /reservations/:reservationId — Cancel Reservation
+
+#### ✅ 204 No Content
 Seats are released back into the pool.
 
-❌ 404 Not Found
-json
-Copy code
+#### ❌ 404 Not Found
+```
 { "error": "Reservation not found" }
-GET /reservations/ — Event Summary
-✅ 200 OK
-json
-Copy code
+```
+
+---
+
+### GET /reservations/ — Event Summary
+
+#### ✅ 200 OK
+```
 {
   "eventId": "node-meetup-2025",
   "name": "Node.js Meet-up",
@@ -138,57 +151,61 @@ Copy code
   "reservationCount": 8,
   "version": 5
 }
-🧠 Example API Flow
-POST /reservations/ → Partner A reserves 5 seats
+```
 
-POST /reservations/ → Partner B reserves 10 seats
+---
 
-DELETE /reservations/:id → Partner A cancels
+## 🧠 Example API Flow
 
-GET /reservations/ → Shows updated available seats and version increment
+1. `POST /reservations/` → Partner A reserves 5 seats  
+2. `POST /reservations/` → Partner B reserves 10 seats  
+3. `DELETE /reservations/:id` → Partner A cancels  
+4. `GET /reservations/` → Shows updated available seats and version increment
 
-Every successful reservation or cancellation increments the version counter.
+Every successful reservation or cancellation increments the **version** counter.
 
-🧱 Technical Decisions
-Data Storage
-The event and reservation data are stored in-memory for simplicity.
+---
 
-A real-world implementation would persist data in Redis or PostgreSQL for concurrency safety.
+## 🧱 Technical Decisions
 
-Optimistic Concurrency Control
-A version key increments on every state change (reservation/cancellation).
+### Data Storage
+- The event and reservation data are stored **in-memory** for simplicity.  
+- A real-world implementation would persist data in **Redis or PostgreSQL** for concurrency safety.
 
-This allows clients to detect concurrent updates.
+### Optimistic Concurrency Control
+- A `version` key increments on every state change (reservation/cancellation).
+- This allows clients to detect concurrent updates.
 
-Error Handling
-Proper validation for:
+### Error Handling
+- Proper validation for:
+  - Invalid seat numbers (≤0 or >10)
+  - Insufficient available seats
+  - Missing or invalid reservation IDs
 
-Invalid seat numbers (≤0 or >10)
+### Design Choices
+- Endpoints kept **RESTful and simple**
+- Stateless API behavior (no sessions)
+- Frontend built using **vanilla HTML/CSS/JS** for simplicity and clarity
 
-Insufficient available seats
+---
 
-Missing or invalid reservation IDs
+## ✅ Evaluation Checklist
 
-Design Choices
-Endpoints kept RESTful and simple
+| Criteria | Status | Notes |
+|-----------|--------|-------|
+| Functional API (3 endpoints) | ✅ | Matches Powerplay spec |
+| No overselling of seats | ✅ | Validated in POST route |
+| Proper HTTP codes | ✅ | 201, 204, 400, 404, 409 used correctly |
+| Version increments | ✅ | Each update increments version |
+| Clean Code & Comments | ✅ | Readable, modular code |
+| Frontend Integration | ✅ | Fully working UI for interaction |
+| Documentation | ✅ | Detailed README (this file) |
 
-Stateless API behavior (no sessions)
+---
 
-Frontend built using vanilla HTML/CSS/JS for simplicity and clarity
+## 💻 Run Example
 
-✅ Evaluation Checklist
-Criteria	Status	Notes
-Functional API (3 endpoints)	✅	Matches Powerplay spec
-No overselling of seats	✅	Validated in POST route
-Proper HTTP codes	✅	201, 204, 400, 404, 409 used correctly
-Version increments	✅	Each update increments version
-Clean Code & Comments	✅	Readable, modular code
-Frontend Integration	✅	Fully working UI for interaction
-Documentation	✅	Detailed README (this file)
-
-💻 Run Example
-bash
-Copy code
+```
 # Start server
 npm run dev
 
@@ -201,12 +218,26 @@ POST http://127.0.0.1:8000/reservations/
   "partnerId": "alpha-inc",
   "seats": 4
 }
-Response:
-json
-Copy code
+```
+
+#### Response:
+```
 {
   "reservationId": "af7231ab-18a9-467f-a6db-81ef0196b3c2",
   "seats": 4,
   "status": "confirmed"
 }
-👨‍💻 Author
+```
+
+---
+
+## 👨‍💻 Author
+
+**Dikshant Ubale**  
+🎓 Sophomore, IIITDM Kancheepuram  
+💡 Electronics + Robotics Enthusiast | Full-stack & IoT Developer  
+📫 [GitHub: howdikshant](https://github.com/howdikshant)
+
+---
+
+> _“Fast, clean, and reliable — TicketBossJS ensures no ticket chaos.”_ 🎫
