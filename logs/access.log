@@ -1,0 +1,11 @@
+[2025-10-29T13:39:34.626Z] GET /
+[2025-10-29T13:39:34.729Z] GET /favicon.ico
+[2025-10-29T13:40:01.877Z] POST /reservations/
+[2025-10-29T13:40:07.296Z] GET /
+[2025-10-29T13:40:07.342Z] GET /favicon.ico
+::ffff:127.0.0.1 - - [29/Oct/2025:14:37:41 +0000] "GET / HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+::ffff:127.0.0.1 - - [29/Oct/2025:14:37:41 +0000] "GET /favicon.ico HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+::ffff:127.0.0.1 - - [29/Oct/2025:14:41:10 +0000] "GET / HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+::ffff:127.0.0.1 - - [29/Oct/2025:14:41:11 +0000] "GET /favicon.ico HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+::ffff:127.0.0.1 - - [29/Oct/2025:14:42:51 +0000] "GET / HTTP/1.1" 200 5279 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+::ffff:127.0.0.1 - - [29/Oct/2025:14:42:51 +0000] "GET /favicon.ico HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
