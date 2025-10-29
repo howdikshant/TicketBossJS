@@ -48,6 +48,20 @@
       transition: 0.2s;
     }
     button:hover { background: #019874; }
+
+    #summaryBox {
+      background: #1e1e1e;
+      width: 80%;
+      max-width: 700px;
+      margin: 10px auto 30px auto;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 0 10px rgba(0,255,180,0.3);
+      text-align: left;
+      font-size: 0.95rem;
+      white-space: pre-wrap;
+    }
+
     .output {
       background: #111;
       width: 80%;
@@ -67,10 +81,16 @@
       border-left: 4px solid #00b894;
       border-radius: 6px;
       white-space: pre-wrap;
+      animation: fadeIn 0.3s ease-in;
     }
     .error { border-left-color: #e74c3c; }
     .info { border-left-color: #3498db; }
     .success { border-left-color: #00b894; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body>
@@ -92,94 +112,86 @@
       </div>
     </div>
 
+    <div id="summaryBox">📊 Loading event summary...</div>
     <div id="output" class="output"></div>
   </main>
 
   <script>
-  const API = "http://127.0.0.1:8000";
-  const outputDiv = document.getElementById("output");
+    const API = "http://127.0.0.1:8000";
+    const outputDiv = document.getElementById("output");
+    const summaryBox = document.getElementById("summaryBox");
 
-  function addMessage(msg, type = "info") {
-    const div = document.createElement("div");
-    div.className = "msg " + type;
-    div.textContent = msg;
-    outputDiv.innerHTML = ""; // overwrite instead of stacking
-    outputDiv.appendChild(div);
-  }
-
-  async function reserve() {
-    const partnerId = document.getElementById("partnerId").value.trim();
-    const seats = parseInt(document.getElementById("seats").value);
-
-    if (!partnerId || isNaN(seats)) {
-      addMessage("⚠️ Please enter valid Partner ID and number of seats.", "error");
-      return;
+    function addMessage(msg, type = "info") {
+      const div = document.createElement("div");
+      div.className = "msg " + type;
+      div.textContent = msg;
+      outputDiv.prepend(div);
     }
 
-    try {
-      const res = await fetch(`${API}/reservations/`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ partnerId, seats })
-      });
+    async function reserve() {
+      const partnerId = document.getElementById("partnerId").value.trim();
+      const seats = parseInt(document.getElementById("seats").value);
 
-      const data = await res.json();
-      if (res.status === 201) {
-        addMessage(`✅ Reservation Confirmed!
-Reservation ID: ${data.reservationId}
-Seats: ${data.seats}
-Version: ${data.version}`, "success");
-      } else {
-        addMessage(`❌ ${data.error}`, "error");
+      if (!partnerId || isNaN(seats)) {
+        addMessage("⚠️ [400] Invalid Partner ID or seat count.", "error");
+        return;
       }
-    } catch (err) {
-      addMessage(`❌ Network Error: ${err}`, "error");
+
+      try {
+        const res = await fetch(`${API}/reservations/`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ partnerId, seats })
+        });
+
+        const data = await res.json().catch(() => ({}));
+        if (res.status === 201) {
+          addMessage(`✅ [201] Reservation Confirmed\nReservation ID: ${data.reservationId}\nSeats: ${data.seats}\nVersion: ${data.version}`, "success");
+        } else {
+          addMessage(`❌ [${res.status}] ${data.error || "Unexpected error"}`, "error");
+        }
+      } catch (err) {
+        addMessage(`❌ [500] Network Error: ${err}`, "error");
+      }
     }
-  }
 
-  async function cancelReservation() {
-    const id = document.getElementById("reservationId").value.trim();
-    if (!id) {
-      addMessage("⚠️ Please enter a Reservation ID.", "error");
-      return;
+    async function cancelReservation() {
+      const id = document.getElementById("reservationId").value.trim();
+      if (!id) {
+        addMessage("⚠️ [400] Missing Reservation ID.", "error");
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API}/reservations/${id}`, { method: "DELETE" });
+        if (res.status === 204) {
+          addMessage(`🗑️ [204] Reservation cancelled successfully (ID: ${id})`, "success");
+        } else {
+          const data = await res.json().catch(() => ({}));
+          addMessage(`❌ [${res.status}] ${data.error || "Unexpected error"}`, "error");
+        }
+      } catch (err) {
+        addMessage(`❌ [500] Network error: ${err}`, "error");
+      }
     }
 
-    try {
-      const res = await fetch(`${API}/reservations/${id}`, { method: "DELETE" });
-
-      if (res.status === 204) {
-        addMessage(`🗑️ Reservation cancelled successfully (ID: ${id})`, "success");
-      } else {
+    async function getSummary() {
+      try {
+        const res = await fetch(`${API}/reservations/`);
         const data = await res.json();
-        addMessage(`❌ ${data.error || "Unexpected error"}`, "error");
-      }
-    } catch (err) {
-      addMessage(`❌ Network error: ${err}`, "error");
-    }
-  }
-
-  async function getSummary() {
-    try {
-      const res = await fetch(`${API}/reservations/`);
-      const data = await res.json();
-
-      addMessage(`📊 Event Summary:
+        summaryBox.textContent = `📊 [${res.status}] Event Summary:
 Event: ${data.name}
 Total Seats: ${data.totalSeats}
 Available Seats: ${data.availableSeats}
 Reservations: ${data.reservationCount}
-Version: ${data.version}`, "info");
-    } catch (err) {
-      addMessage(`❌ Failed to fetch summary: ${err}`, "error");
+Version: ${data.version}`;
+      } catch {
+        summaryBox.textContent = "❌ [500] Failed to fetch summary.";
+      }
     }
-  }
 
-  // ⏱️ Auto-refresh summary every 1 second
-  setInterval(getSummary, 1000);
-
-  // Also show it on first load
-  window.onload = getSummary;
-</script>
-
+    setInterval(getSummary, 1000);
+    window.onload = getSummary;
+  </script>
 </body>
 </html>
