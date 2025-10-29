@@ -2,6 +2,8 @@
 > **TicketBossJS** is a robust backend system for managing real-time event seat reservations with **strict concurrency safety**, ensuring **zero overbooking** even under heavy parallel requests.  
 > Built for the **Powerplay Backend Intern Challenge**, this project demonstrates backend design, concurrency control, database integration, and scalable REST API architecture.
 
+A working video of the API for your reference https://drive.google.com/drive/folders/1CWu5vsk7glPybib30vi1RBGq54YeKRaL?usp=sharing
+
 ---
 
 ## 📘 Table of Contents
