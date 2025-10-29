@@ -6,18 +6,24 @@
 ---
 
 ## 📘 Table of Contents
-- [Problem Overview](#problem-overview-1)
-- [Tech Stack](#tech-stack-1)
-- [Project Structure](#project-structure-1)
-- [Setup Instructions](#setup-instructions-1)
-- [API Endpoints](#api-endpoints-1)
+- [Problem Overview](#problem-overview)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Setup Instructions](#setup-instructions)
+- [API Endpoints](#api-endpoints)
   - [POST /reservations/ — Reserve Seats](#post-reservations--reserve-seats)
   - [DELETE /reservations/:reservationId — Cancel Reservation](#delete-reservationsreservationid--cancel-reservation)
   - [GET /reservations/ — Event Summary](#get-reservations--event-summary)
-- [Example API Flow](#example-api-flow-1)
-- [Technical Decisions](#technical-decisions-1)
-- [Evaluation Checklist](#evaluation-checklist-1)
-- [Author](#author-1)
+- [Example API Flow](#example-api-flow)
+- [Technical Decisions](#technical-decisions)
+- [Evaluation Checklist](#evaluation-checklist)
+- [Author](#author)
+
+---
+
+<a id="problem-overview"></a>
+## 🧩 Problem Overview
+
 
 
 
