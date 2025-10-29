@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🎟️ TicketBoss — Node.js Meet-up</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #0f0f0f;
+      color: white;
+      text-align: center;
+      padding: 0;
+      margin: 0;
+    }
+    header {
+      background: #00b894;
+      padding: 20px;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    main { padding: 20px; }
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    .box {
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 12px;
+      width: 280px;
+      box-shadow: 0 0 8px rgba(0, 255, 180, 0.3);
+    }
+    input, button {
+      width: 90%;
+      padding: 8px;
+      margin: 6px 0;
+      border: none;
+      border-radius: 8px;
+    }
+    button {
+      background: #00b894;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover { background: #019874; }
+    .output {
+      background: #111;
+      width: 80%;
+      max-width: 700px;
+      margin: auto;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: left;
+      overflow-y: auto;
+      max-height: 400px;
+      box-shadow: inset 0 0 8px rgba(0,255,180,0.3);
+    }
+    .msg {
+      background: #222;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-left: 4px solid #00b894;
+      border-radius: 6px;
+      white-space: pre-wrap;
+    }
+    .error { border-left-color: #e74c3c; }
+    .info { border-left-color: #3498db; }
+  </style>
+</head>
+<body>
+  <header>🎟️ TicketBoss — Node.js Meet-up</header>
+  <main>
+    <div class="controls">
+      <div class="box">
+        <h3>Reserve Seats</h3>
+        <input id="partnerId" placeholder="Partner ID" />
+        <input id="seats" type="number" placeholder="Seats (1–10)" />
+        <button onclick="reserve()">Reserve</button>
+      </div>
+
+      <div class="box">
+        <h3>Cancel Reservation</h3>
+        <input id="reservationId" placeholder="Reservation ID" />
+        <button onclick="cancelReservation()">Cancel</button>
+      </div>
+
+      <div class="box">
+        <h3>Event Summary</h3>
+        <button onclick="getSummary()">Show Summary</button>
+      </div>
+    </div>
+
+    <div id="output" class="output"></div>
+  </main>
+
+  <script>
+    const API = "http://127.0.0.1:8000";
+
+    function addMessage(msg, type="info") {
+      const div = document.createElement("div");
+      div.className = "msg " + type;
+      div.textContent = msg;
+      document.getElementById("output").prepend(div);
+    }
+
+    async function reserve() {
+      const partnerId = document.getElementById("partnerId").value;
+      const seats = parseInt(document.getElementById("seats").value);
+      try {
+        const res = await fetch(`${API}/reservations/`, {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({ partnerId, seats })
+        });
+        const data = await res.json();
+        if (res.status === 201) {
+          addMessage(`✅ Reservation confirmed\nID: ${data.reservationId}\nSeats: ${data.seats}\nStatus: ${data.status}`, "info");
+        } else {
+          addMessage(`❌ ${data.error}`, "error");
+        }
+      } catch (err) {
+        addMessage(`❌ Network error: ${err}`, "error");
+      }
+    }
+
+    async function cancelReservation() {
+      const id = document.getElementById("reservationId").value;
+      try {
+        const res = await fetch(`${API}/reservations/${id}`, { method: "DELETE" });
+        if (res.status === 204) {
+          addMessage(`🗑️ Reservation cancelled successfully (ID: ${id})`, "info");
+        } else if (res.status === 404) {
+          addMessage("❌ Reservation not found", "error");
+        } else {
+          addMessage(`❌ Unexpected error (code ${res.status})`, "error");
+        }
+      } catch (err) {
+        addMessage(`❌ Network error: ${err}`, "error");
+      }
+    }
+
+    async function getSummary() {
+      try {
+        const res = await fetch(`${API}/reservations/`);
+        const data = await res.json();
+        addMessage(`📊 Event Summary:
+Event ID: ${data.eventId}
+Name: ${data.name}
+Total Seats: ${data.totalSeats}
+Available Seats: ${data.availableSeats}
+Reserved Count: ${data.reservationCount}
+Version: ${data.version}`, "info");
+      } catch (err) {
+        addMessage(`❌ Failed to fetch summary: ${err}`, "error");
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "seats": [
+    { "id": "A1", "reserved": false },
+    { "id": "A2", "reserved": false },
+    { "id": "A3", "reserved": false }
+  ]
+}
