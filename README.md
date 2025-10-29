@@ -53,14 +53,20 @@ The system supports:
 ```
 TicketBossJS/
 │
-├── public/
-│   └── index.html          # Frontend UI
+├── data/
+│   ├── data.json              # Stores event metadata (totalSeats, availableSeats, etc.)
+│   └── reservations.json      # Stores all reservation records
 │
-├── server.js               # Main backend file
-├── package.json            # Dependencies and scripts
-├── package-lock.json       # Auto-generated dependency lock file
-├── .gitignore              # Ignored files
-└── README.md               # Documentation
+├── node_modules/              # Installed dependencies
+│
+├── public/
+│   └── index.html             # Frontend UI
+│
+├── server.js                  # Main backend file (Express server)
+├── package.json               # Dependencies and scripts
+├── package-lock.json          # Auto-generated dependency lock file
+├── .gitignore                 # Ignored files
+└── README.md                  # Documentation
 ```
 
 ---
@@ -169,12 +175,12 @@ Every successful reservation or cancellation increments the **version** counter.
 ## 🧱 Technical Decisions
 
 ### Data Storage
-- The event and reservation data are stored **in-memory** for simplicity.  
-- A real-world implementation would persist data in **Redis or PostgreSQL** for concurrency safety.
+- The event and reservation data are stored **in-memory and mirrored in JSON files** (`data.json`, `reservations.json`).
+- In production, this would use **Redis** or **PostgreSQL** to handle concurrent access safely.
 
 ### Optimistic Concurrency Control
 - A `version` key increments on every state change (reservation/cancellation).
-- This allows clients to detect concurrent updates.
+- Ensures real-time consistency without overselling.
 
 ### Error Handling
 - Proper validation for:
@@ -183,9 +189,9 @@ Every successful reservation or cancellation increments the **version** counter.
   - Missing or invalid reservation IDs
 
 ### Design Choices
-- Endpoints kept **RESTful and simple**
-- Stateless API behavior (no sessions)
-- Frontend built using **vanilla HTML/CSS/JS** for simplicity and clarity
+- Endpoints kept **RESTful and minimal**
+- Frontend built using **vanilla HTML/CSS/JS**
+- No external frameworks — lightweight and dependency-minimal
 
 ---
 
@@ -194,12 +200,12 @@ Every successful reservation or cancellation increments the **version** counter.
 | Criteria | Status | Notes |
 |-----------|--------|-------|
 | Functional API (3 endpoints) | ✅ | Matches Powerplay spec |
-| No overselling of seats | ✅ | Validated in POST route |
-| Proper HTTP codes | ✅ | 201, 204, 400, 404, 409 used correctly |
-| Version increments | ✅ | Each update increments version |
-| Clean Code & Comments | ✅ | Readable, modular code |
-| Frontend Integration | ✅ | Fully working UI for interaction |
-| Documentation | ✅ | Detailed README (this file) |
+| No overselling of seats | ✅ | Enforced through seat validation |
+| Proper HTTP codes | ✅ | 201, 204, 400, 404, 409 |
+| Version increments | ✅ | Every modification updates version |
+| Clean, documented code | ✅ | Readable + modular |
+| Frontend Integration | ✅ | Fully interactive UI |
+| Documentation | ✅ | This README covers all details |
 
 ---
 
@@ -231,13 +237,3 @@ POST http://127.0.0.1:8000/reservations/
 
 ---
 
-## 👨‍💻 Author
-
-**Dikshant Ubale**  
-🎓 Sophomore, IIITDM Kancheepuram  
-💡 Electronics + Robotics Enthusiast | Full-stack & IoT Developer  
-📫 [GitHub: howdikshant](https://github.com/howdikshant)
-
----
-
-> _“Fast, clean, and reliable — TicketBossJS ensures no ticket chaos.”_ 🎫
