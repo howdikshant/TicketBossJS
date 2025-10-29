@@ -12,12 +12,13 @@
 - [Setup Instructions](#setup-instructions)
 - [API Endpoints](#api-endpoints)
   - [POST /reservations/ — Reserve Seats](#post-reservations--reserve-seats)
-  - [DELETE /reservations/:reservationId — Cancel Reservation](#delete-reservationsreservationid--cancel-reservation)
+  - [DELETE /reservations/:reservationid — Cancel Reservation](#delete-reservationsreservationid--cancel-reservation)
   - [GET /reservations/ — Event Summary](#get-reservations--event-summary)
 - [Example API Flow](#example-api-flow)
 - [Technical Decisions](#technical-decisions)
 - [Evaluation Checklist](#evaluation-checklist)
 - [Author](#author)
+
 
 ---
 
