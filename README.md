@@ -17,7 +17,6 @@
 - [Example API Flow](#example-api-flow)
 - [Technical Decisions](#technical-decisions)
 - [Evaluation Checklist](#evaluation-checklist)
-- [Author](#author)
 
 ---
 
@@ -43,7 +42,9 @@ The system supports:
 
 ---
 
+<a id="tech-stack"></a>
 ## ⚙️ Tech Stack
+
 
 | Component | Technology |
 |------------|-------------|
@@ -56,7 +57,9 @@ The system supports:
 
 ---
 
+<a id="project-structure"></a>
 ## 📁 Project Structure
+
 
 ```
 TicketBossJS/
@@ -78,7 +81,7 @@ TicketBossJS/
 ```
 
 ---
-
+<a id="setup-instructions"></a>
 ## 🚀 Setup Instructions
 
 ### Step 1: Clone the Repository
@@ -109,7 +112,9 @@ The UI allows you to:
 
 ---
 
+<a id="api-endpoints"></a>
 ## 🌐 API Endpoints
+
 
 ### POST /reservations/ — Reserve Seats
 #### Request Body
@@ -169,7 +174,9 @@ Seats are released back into the pool.
 
 ---
 
+<a id="example-api-flow"></a>
 ## 🧠 Example API Flow
+
 
 1. `POST /reservations/` → Partner A reserves 5 seats  
 2. `POST /reservations/` → Partner B reserves 10 seats  
@@ -180,7 +187,9 @@ Every successful reservation or cancellation increments the **version** counter.
 
 ---
 
+<a id="technical-decisions"></a>
 ## 🧱 Technical Decisions
+
 
 ### Data Storage
 - The event and reservation data are stored **in-memory and mirrored in JSON files** (`data.json`, `reservations.json`).
@@ -203,7 +212,9 @@ Every successful reservation or cancellation increments the **version** counter.
 
 ---
 
+<a id="evaluation-checklist"></a>
 ## ✅ Evaluation Checklist
+
 
 | Criteria | Status | Notes |
 |-----------|--------|-------|
