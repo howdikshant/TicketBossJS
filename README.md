@@ -76,29 +76,104 @@ TicketBossJS/
 
 <a id="setup-instructions"></a>
 ## 🚀 Setup Instructions
-### Step 1: Clone the Repository
+
+Follow these steps to set up and run **TicketBossJS** locally on your system.
+
+---
+
+### 🧩 Step 1: Download the Project Folder
+You can either:
+- Clone this repository using Git, or  
+- Download the ZIP folder manually from GitHub and extract it.
+
 ```bash
 git clone https://github.com/howdikshant/TicketBossJS.git
 cd TicketBossJS
 ```
 
-### Step 2: Install Dependencies
+---
+
+### ⚙️ Step 2: Install MongoDB & MongoDB Compass
+
+1. Download and install **MongoDB Community Server** from the official website:  
+   👉 [https://www.mongodb.com/try/download/community](https://www.mongodb.com/try/download/community)
+
+2. Install **MongoDB Compass** (GUI tool) from:  
+   👉 [https://www.mongodb.com/products/compass](https://www.mongodb.com/products/compass)
+
+3. Open MongoDB Compass and connect to:  
+   ```
+   mongodb://127.0.0.1:27017
+   ```
+
+4. You should see a running connection on your local system.
+
+---
+
+### 💻 Step 3: Open the Project in VS Code
+
+1. Open **Visual Studio Code**  
+2. Click **File → Open Folder → Select the TicketBossJS folder**  
+3. Open a new **Terminal** inside VS Code (Ctrl + `)
+
+---
+
+### 🧰 Step 4: Install Dependencies
+
+Now install all required packages manually by running the following commands one by one:
+
 ```bash
-npm install
+npm install express
+npm install mongoose
+npm install cors
+npm install dotenv
+npm install morgan
+npm install nodemon --save-dev
+npm install uuid
+npm install helmet
+npm install express-rate-limit
 ```
 
-### Step 3: Start MongoDB
-Make sure MongoDB is running locally (default: `mongodb://127.0.0.1:27017`).
+> ⚠️ Note: You can also simply run `npm install` if `package.json` already contains all dependencies.
 
-### Step 4: Run the Server
+---
+
+### 🧠 Step 5: Start MongoDB Server
+
+Ensure MongoDB service is running locally.  
+To start it manually (if not already running):
+
+```bash
+mongod
+```
+
+If you’re using MongoDB Compass, it starts automatically when connected.
+
+---
+
+### 🚀 Step 6: Run the Server
+
+Start your backend server:
+
 ```bash
 npm run dev
 ```
-Server will start at  
+
+> This uses `nodemon` for live reloads whenever you edit the code.
+
+Server will start at:  
 👉 **[http://127.0.0.1:8000](http://127.0.0.1:8000)**
 
-### Step 5: Open Frontend
-Open `public/index.html` in a browser or with VSCode’s Live Server.
+---
+
+### 🌐 Step 7: Open Frontend UI
+
+Open `public/index.html` in your browser or use **Live Server extension** in VS Code.
+
+You can:
+- Reserve seats  
+- Cancel reservations  
+- View live seat summary and version updates  
 
 ---
 
@@ -170,22 +245,6 @@ This project uses **Optimistic Concurrency Control (OCC)**:
 - Each `Event` document has a `version` field.
 - On every update, Mongoose ensures the document’s version matches the stored version.
 - If two updates happen at once, one succeeds, and the other throws a `Concurrency conflict` error.
-
-### 🧪 Tested Using `test-concurrency.js`
-```bash
-node test-concurrency.js
-```
-The test simulates **10+ parallel booking requests**.  
-Example output:
-```
-[1] ✅ Success: e3fbb7d4-04df-4e4f-b41b-f0c2f7c5c3b2
-[2] ✅ Success: d81c3fae-25f1-48ef-83b8-6120c25a12d9
-[3] ❌ Failed: Concurrency conflict – try again
-...
-Test completed.
-```
-✅ Successful bookings show reserved IDs  
-❌ Failed ones show concurrency conflicts — proof of safe locking.
 
 ---
 
