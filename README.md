@@ -1,6 +1,6 @@
 # 🎟️ TicketBossJS — Real-Time Event Ticketing API (Node.js + Express)
 
-> **TicketBossJS** is a backend application that implements a real-time event seat reservation system for a tech meet-up.  
+> **TicketBossJS** is a backend application that implements a real-time event seat reservation system for a tech meet-up.  
 > Built as part of the **Powerplay Backend Intern Challenge**, this project ensures **no overselling** of seats while allowing multiple partners to reserve and cancel tickets instantly.
 
 ---
@@ -11,9 +11,9 @@
 - [Project Structure](#project-structure)
 - [Setup Instructions](#setup-instructions)
 - [API Endpoints](#api-endpoints)
-  - [POST /reservations/ — Reserve Seats](#post-reservations--reserve-seats)
-  - [DELETE /reservations/:reservationId — Cancel Reservation](#delete-reservationsreservationid--cancel-reservation)
-  - [GET /reservations/ — Event Summary](#get-reservations--event-summary)
+  - [POST /reservations/ — Reserve Seats](#post-reservations--reserve-seats)
+  - [DELETE /reservations/:reservationId — Cancel Reservation](#delete-reservationsreservationid--cancel-reservation)
+  - [GET /reservations/ — Event Summary](#get-reservations--event-summary)
 - [Example API Flow](#example-api-flow)
 - [Technical Decisions](#technical-decisions)
 - [Evaluation Checklist](#evaluation-checklist)
@@ -30,15 +30,15 @@
 
 ## 🧩 Problem Overview
 
-Your city is hosting a **Node.js Tech Meet-up** with **500 total seats**.  
-Partners can use this API to **reserve** or **cancel** seats in real time.  
+Your city is hosting a **Node.js Tech Meet-up** with **500 total seats**.  
+Partners can use this API to **reserve** or **cancel** seats in real time.  
 Overselling is **not allowed**, and each partner must get an **instant accept/deny response**.
 
 The system supports:
-- Real-time seat reservations  
-- Reservation cancellation  
-- Live event summary tracking  
-- Version increment on every data update  
+- Real-time seat reservations  
+- Reservation cancellation  
+- Live event summary tracking  
+- Version increment on every data update  
 
 ---
 
@@ -57,28 +57,59 @@ The system supports:
 
 ---
 
-<a id="project-structure"></a>📁 Project StructureTicketBossJS/
+<a id="project-structure"></a>
+## 📁 Project Structure
+
+
+```
+TicketBossJS/
 │
 ├── data/
-│   ├── data.json              # Event state: totalSeats, availableSeats, version
-│   └── reservations.json      # All successful reservation records
+│   ├── data.json              # Stores event metadata (totalSeats, availableSeats, etc.)
+│   └── reservations.json      # Stores all reservation records
 │
 ├── node_modules/              # Installed dependencies
 │
 ├── public/
-│   └── index.html             # Interactive client-side UI
+│   └── index.html             # Frontend UI
 │
 ├── server.js                  # Main backend file (Express server)
 ├── package.json               # Dependencies and scripts
 ├── package-lock.json          # Auto-generated dependency lock file
 ├── .gitignore                 # Ignored files
 └── README.md                  # Documentation
-<a id="setup-instructions"></a>🚀 Setup InstructionsStep 1: Clone and Navigate to the RepositoryFirst, download all the files by cloning the project from GitHub:Bashgit clone https://github.com/howdikshant/TicketBossJS.git
+```
+
+---
+<a id="setup-instructions"></a>
+## 🚀 Setup Instructions
+
+### Step 1: Clone the Repository
+```
+git clone https://github.com/howdikshant/TicketBossJS.git
 cd TicketBossJS
-Step 2: Open in Visual Studio CodeOpen the project directory in VS Code for easy development and access to the integrated terminal:Bashcode .
-Note: If code . doesn't work, manually open the TicketBossJS folder from within VS Code.Step 3: Install DependenciesOpen your terminal (or VS Code's integrated terminal) and install the necessary dependencies (the required stuff):Bashnpm install
-Step 4: Run the ServerStart the Express API server using the development script:Bashnpm run dev
-The API will start at $\rightarrow$ http://127.0.0.1:8000Step 5: Check the Initial State and FunctionalityVerify the API is running and the event is bootstrapped:Event Bootstrap: The database is seeded on first start-up with 500 seats1111.Total Seats: 500 2Available Seats: 500 3Version: 0 4Open the Frontend: Open public/index.html in your web browser. You can use the provided UI to test the four required API endpoints:POST /reservations/ (Reserve Seats) 5DELETE /reservations/:reservationId (Cancel Reservation) 6GET /reservations/ (Event Summary) 7
+```
+
+### Step 2: Install Dependencies
+```
+npm install
+```
+
+### Step 3: Run the Server
+```
+npm run dev
+```
+
+The API will start at  
+👉 **http://127.0.0.1:8000**
+
+### Step 4: Open the Frontend
+Open `public/index.html` in your browser or use VSCode’s Live Server extension.  
+The UI allows you to:
+- Reserve seats  
+- Cancel reservations  
+- View live event summary  
+
 ---
 
 <a id="api-endpoints"></a>
@@ -89,17 +120,17 @@ The API will start at $\rightarrow$ http://127.0.0.1:8000Step 5: Check the Initi
 #### Request Body
 ```
 {
-  "partnerId": "abc-corp",
-  "seats": 3
+  "partnerId": "abc-corp",
+  "seats": 3
 }
 ```
 
 #### ✅ 201 Created
 ```
 {
-  "reservationId": "f53a81e6-3d44-4f23-b2f1-3d79c2c347e1",
-  "seats": 3,
-  "status": "confirmed"
+  "reservationId": "f53a81e6-3d44-4f23-b2f1-3d79c2c347e1",
+  "seats": 3,
+  "status": "confirmed"
 }
 ```
 
@@ -132,12 +163,12 @@ Seats are released back into the pool.
 #### ✅ 200 OK
 ```
 {
-  "eventId": "node-meetup-2025",
-  "name": "Node.js Meet-up",
-  "totalSeats": 500,
-  "availableSeats": 476,
-  "reservationCount": 8,
-  "version": 5
+  "eventId": "node-meetup-2025",
+  "name": "Node.js Meet-up",
+  "totalSeats": 500,
+  "availableSeats": 476,
+  "reservationCount": 8,
+  "version": 5
 }
 ```
 
@@ -147,9 +178,9 @@ Seats are released back into the pool.
 ## 🧠 Example API Flow
 
 
-1. `POST /reservations/` → Partner A reserves 5 seats  
-2. `POST /reservations/` → Partner B reserves 10 seats  
-3. `DELETE /reservations/:id` → Partner A cancels  
+1. `POST /reservations/` → Partner A reserves 5 seats  
+2. `POST /reservations/` → Partner B reserves 10 seats  
+3. `DELETE /reservations/:id` → Partner A cancels  
 4. `GET /reservations/` → Shows updated available seats and version increment
 
 Every successful reservation or cancellation increments the **version** counter.
@@ -170,9 +201,9 @@ Every successful reservation or cancellation increments the **version** counter.
 
 ### Error Handling
 - Proper validation for:
-  - Invalid seat numbers (≤0 or >10)
-  - Insufficient available seats
-  - Missing or invalid reservation IDs
+  - Invalid seat numbers (≤0 or >10)
+  - Insufficient available seats
+  - Missing or invalid reservation IDs
 
 ### Design Choices
 - Endpoints kept **RESTful and minimal**
@@ -209,19 +240,18 @@ http://127.0.0.1:8000
 # Example POST request
 POST http://127.0.0.1:8000/reservations/
 {
-  "partnerId": "alpha-inc",
-  "seats": 4
+  "partnerId": "alpha-inc",
+  "seats": 4
 }
 ```
 
 #### Response:
 ```
 {
-  "reservationId": "af7231ab-18a9-467f-a6db-81ef0196b3c2",
-  "seats": 4,
-  "status": "confirmed"
+  "reservationId": "af7231ab-18a9-467f-a6db-81ef0196b3c2",
+  "seats": 4,
+  "status": "confirmed"
 }
 ```
 
 ---
-
