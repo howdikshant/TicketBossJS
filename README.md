@@ -51,10 +51,13 @@ The system supports:
 ## 📁 Project Structure
 
 TicketBossJS/
+│
 ├── public/
 │ └── index.html # Frontend UI
+│
 ├── server.js # Main backend file
 ├── package.json # Dependencies and scripts
+├── package-lock.json # Auto-generated dependency lock file
 ├── .gitignore # Ignored files
 └── README.md # Documentation
 
