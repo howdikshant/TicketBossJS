@@ -57,59 +57,28 @@ The system supports:
 
 ---
 
-<a id="project-structure"></a>
-## 📁 Project Structure
-
-
-```
-TicketBossJS/
+<a id="project-structure"></a>📁 Project StructureTicketBossJS/
 │
 ├── data/
-│   ├── data.json              # Stores event metadata (totalSeats, availableSeats, etc.)
-│   └── reservations.json      # Stores all reservation records
+│   ├── data.json              # Event state: totalSeats, availableSeats, version
+│   └── reservations.json      # All successful reservation records
 │
-├── node_modules/              # Installed dependencies
+├── node_modules/              # Installed dependencies
 │
 ├── public/
-│   └── index.html             # Frontend UI
+│   └── index.html             # Interactive client-side UI
 │
-├── server.js                  # Main backend file (Express server)
-├── package.json               # Dependencies and scripts
-├── package-lock.json          # Auto-generated dependency lock file
-├── .gitignore                 # Ignored files
-└── README.md                  # Documentation
-```
-
----
-<a id="setup-instructions"></a>
-## 🚀 Setup Instructions
-
-### Step 1: Clone the Repository
-```
-git clone https://github.com/howdikshant/TicketBossJS.git
+├── server.js                  # Main backend file (Express server)
+├── package.json               # Dependencies and scripts
+├── package-lock.json          # Auto-generated dependency lock file
+├── .gitignore                 # Ignored files
+└── README.md                  # Documentation
+<a id="setup-instructions"></a>🚀 Setup InstructionsStep 1: Clone and Navigate to the RepositoryFirst, download all the files by cloning the project from GitHub:Bashgit clone https://github.com/howdikshant/TicketBossJS.git
 cd TicketBossJS
-```
-
-### Step 2: Install Dependencies
-```
-npm install
-```
-
-### Step 3: Run the Server
-```
-npm run dev
-```
-
-The API will start at  
-👉 **http://127.0.0.1:8000**
-
-### Step 4: Open the Frontend
-Open `public/index.html` in your browser or use VSCode’s Live Server extension.  
-The UI allows you to:
-- Reserve seats  
-- Cancel reservations  
-- View live event summary  
-
+Step 2: Open in Visual Studio CodeOpen the project directory in VS Code for easy development and access to the integrated terminal:Bashcode .
+Note: If code . doesn't work, manually open the TicketBossJS folder from within VS Code.Step 3: Install DependenciesOpen your terminal (or VS Code's integrated terminal) and install the necessary dependencies (the required stuff):Bashnpm install
+Step 4: Run the ServerStart the Express API server using the development script:Bashnpm run dev
+The API will start at $\rightarrow$ http://127.0.0.1:8000Step 5: Check the Initial State and FunctionalityVerify the API is running and the event is bootstrapped:Event Bootstrap: The database is seeded on first start-up with 500 seats1111.Total Seats: 500 2Available Seats: 500 3Version: 0 4Open the Frontend: Open public/index.html in your web browser. You can use the provided UI to test the four required API endpoints:POST /reservations/ (Reserve Seats) 5DELETE /reservations/:reservationId (Cancel Reservation) 6GET /reservations/ (Event Summary) 7
 ---
 
 <a id="api-endpoints"></a>
